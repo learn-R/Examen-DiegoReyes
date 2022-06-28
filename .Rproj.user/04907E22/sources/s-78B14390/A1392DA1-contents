@@ -1,0 +1,17 @@
+
+
+
+pacman::p_load(sjPlot,
+               tidyverse,
+               srvyr,
+               survey,
+               magrittr)
+
+# 2. Cargar datos
+
+datos <- read_rds("input/data/Latinobarometro_2020.rds")
+
+## 
+View(datos)
+head(datos)
+frq(ciudad)
