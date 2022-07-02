@@ -1,0 +1,46 @@
+---
+title: "r_01_analisis"
+author: "Diego Reyes"
+date: '2022-07-02'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+pacman::p_load(sjPlot,
+               tidyverse,
+               srvyr,
+               survey,
+               magrittr)
+```
+
+```{r, echo = FALSE}
+datos_proc <- readRDS(file= "../output/data/datos_proc.rds")
+
+```
+
+```{r, echo = FALSE}
+sjPlot::view_df(datos_proc,
+                encoding = "UTF-8")
+```
+
+
+```{r, echo=FALSE, message=FALSE}
+datos_proc%>%
+  plot_scatter(., confianza_fuerzas, edad,
+               title="Asociación de variables percepcion de riesgo y cuidarse",
+               fit.grps = "lm", , grid = TRUE)
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
