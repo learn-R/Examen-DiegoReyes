@@ -46,7 +46,7 @@ datos_proc%>%
 
 mutate_at(vars(sexo, confianza_fuerzas , confianza_policia, confianza_iglesia, confianza_congreso, confianza_gobierno,
                confianza_judicial ), ~(as.character(.))) %>% 
-mutate(sexo.rc = car::recode(.$sexo, recodes = c("1 = 'Hombre'; 2 = 'Mujer'"))) %>% 
+mutate(sexo = car::recode(.$sexo, recodes = c("1 = 'Hombre'; 2 = 'Mujer'"))) %>% 
 mutate(confianza_fuerzas = car::recode(.$confianza_fuerzas, recodes = c("1 = 'Mucho'; 2 = 'Algo';
                                             3 = 'Poca'; 4 = 'Ninguna'; c(-1, -2, -3, -4, -5) = NA"))) %>% 
 mutate(confianza_policia = car::recode(.$confianza_policia, recodes = c("1 = 'Mucho'; 2 = 'Algo';
@@ -65,3 +65,5 @@ mutate(edad = case_when(edad>=18 & edad<=25~"Jovenes",
                           edad>=60~"Adultos Mayores",
                           TRUE ~ NA_character_)) 
 
+# 6. Exportar datos
+saveRDS(datos_proc, file = "output/data/datos_proc.rds")
