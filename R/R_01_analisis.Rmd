@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# 1. Cargar librerías
 ```{r, echo = FALSE}
 pacman::p_load(sjPlot,
                tidyverse,
@@ -17,30 +18,100 @@ pacman::p_load(sjPlot,
                magrittr)
 ```
 
+# 2. Cargar datos
 ```{r, echo = FALSE}
 datos_proc <- readRDS(file= "../output/data/datos_proc.rds")
 
 ```
 
+# 3. Visualizar datos
 ```{r, echo = FALSE}
 sjPlot::view_df(datos_proc,
                 encoding = "UTF-8")
+
+
 ```
 
-
+# 4. Análisis de Correlación
 ```{r, echo=FALSE, message=FALSE}
+
 datos_proc%>%
-  plot_scatter(., confianza_fuerzas, edad,
+  plot_scatter(., confianza_policia, sexo,
                title="Asociación de variables percepcion de riesgo y cuidarse",
-               fit.grps = "lm", , grid = TRUE)
+               fit.grps = "lm", grid = TRUE)
 
 ```
 
-
+## 4.1 Tabla del análisis de correlación
 ```{r}
+
+datos_proc %>%
+  select( confianza_policia,  sexo) %>% 
+  tab_corr(.,
+           triangle = "lower",   
+           title = "Tabla de correlación",
+           encoding = "UTF-8")
 ```
 
 
+```{r, echo=FALSE,message=FALSE}
+modelo1 <- lm(confianza_policia ~  sexo + edad,
+              data = datos_proc, 
+              weights = Ponderador)
+
+summary(modelo1)
+
+modelo2 <- lm(confianza_iglesia ~ sexo + edad,
+              data = datos_proc,
+              weights = Ponderador)
+
+summary(modelo2)
+
+modelo3 <- lm(confianza_congreso ~ sexo + edad,
+              data = datos_proc,
+              weights = Ponderador)
+
+summary(modelo3)
+
+modelo4 <- lm(confianza_gobierno ~ sexo + edad,
+              data = datos_proc,
+              weights = Ponderador)
+
+summary(modelo4)
+
+
+
+
+
+
+```
+
 ```{r}
+sjPlot::tab_model(list(modelo1, modelo2, modelo3, modelo4),
+                  show.ci = FALSE,
+                  collapse.ci = T,
+                  p.style = "stars",
+                  title = "Modelos de regresion lineal multiple",
+                  digits = 3,
+                  show.reflvl = TRUE,
+                  encoding = "UTF-8",
+                  lang = "es")
+
+sjPlot::tab_model(list(modelo1,modelo2,modelo3,modelo4),
+  string.intercept = "(Intercepto)",
+  string.pred = "Predictores",
+  p.style = "stars",
+  show.ci = FALSE,
+  collapse.ci = T,
+  digits = 3,
+  dv.labels = c("Modelo 1", "Modelo 2","Modelo 3","Modelo 4"),
+  show.reflvl = TRUE,
+  encoding = "UTF-8",
+  lang = "es")
+```
+
+```{r}
+
+
 ```
 

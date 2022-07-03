@@ -1,0 +1,7 @@
+"0","datos_proc%>%
+  plot_scatter(., confianza_policia, sexo,
+               title=""Asociación de variables percepcion de riesgo y cuidarse"",
+               fit.grps = ""lm"", grid = TRUE)
+"
+"2","`geom_smooth()` using formula 'y ~ x'
+"

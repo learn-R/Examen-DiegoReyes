@@ -1,0 +1,8 @@
+"0","datos_proc%>%
+  plot_scatter(., confianza_fuerzas, edad,
+               title=""Asociación de variables percepcion de riesgo y cuidarse"",
+               fit.grps = ""lm"", , grid = TRUE)
+"
+"2","Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+  cannot coerce class ‘""haven_labelled""’ to a data.frame
+"
