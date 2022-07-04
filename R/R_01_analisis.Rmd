@@ -86,7 +86,8 @@ summary(modelo4)
 
 ```
 
-```{r}
+#tTabla con los modelos hechos 
+```{r} 
 sjPlot::tab_model(list(modelo1, modelo2, modelo3, modelo4),
                   show.ci = FALSE,
                   collapse.ci = T,
@@ -110,8 +111,60 @@ sjPlot::tab_model(list(modelo1,modelo2,modelo3,modelo4),
   lang = "es")
 ```
 
+
+# Creamos un modelo completo sin diseño muestral
+```{r modelo_completo_sin, echo=TRUE}
+
+modelo_ponderador <- lm(confianza_policia ~ confianza_iglesia + confianza_congreso + confianza_gobierno + sexo + edad, data = datos_proc, weights = Ponderador)
+
+summary(modelo_ponderador) #Revisamos los valores del modelo
+```
+
+# Creamos un modelo sin pesos muestrales
+```{r model0, echo=TRUE}
+modelo0 <- lm(confianza_policia ~ confianza_iglesia + confianza_congreso + confianza_gobierno + sexo + edad, data = datos_proc)
+```
+
+
+
+**Tabla con modelo completo con peso muestral y el modelo completo sin pesos muestrales**
+
+```{r tabla3, echo=FALSE, include=TRUE}
+sjPlot::tab_model(list(modelo_ponderador,modelo0),
+  string.intercept = "(Intercepto)",
+  string.pred = "Predictores",
+  p.style = "stars",
+  show.ci = FALSE,
+  collapse.ci = T,
+  digits = 3,
+  dv.labels = c("Modelo con pesos muestrales", "Modelo sin pesos muestrales"),
+  show.reflvl = TRUE,
+  encoding = "UTF-8",
+  lang = "es")
+```
+```
+
+
 ```{r}
+5. Gráfico para Modelo Ponderador sin diseño muestral  
+```{r grafico1, echo=FALSE}
+plot_model(modelo_ponderador, type = c("est"),
+  show.intercept = T,
+  show.values = T,
+  show.p = T,
+  digits = 3,
+  vline.color = "purple",
+  title = "Modelo de regresión lineal para Modelo Completo")
+```
 
-
+5.1 Gráfico para Modelo 0 sin peso muetsral 
+```{r grafico2}
+plot_model(modelo0, type = c("est"),
+  show.intercept = T,
+  show.values = T,
+  show.p = T,
+  digits = 3,
+  vline.color = "yellow",
+  title = "Modelo de regresión lineal simple para Modelo 0 sin peso muestral")
 ```
 

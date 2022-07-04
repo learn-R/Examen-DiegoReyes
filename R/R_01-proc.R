@@ -1,4 +1,6 @@
+# Examen : Latinobarometro 2020
 
+# 1. Cargar librerías
 
 
 pacman::p_load(tidyverse, #Universo de paquetes
@@ -25,7 +27,6 @@ P13STGBS.B : Confianza en la Policía / Carabineros
 P13ST.C : Confianza en la Iglesia
 P13ST.D : Confianza en el Congreso
 P13ST.E : Confianza en el Gobierno
-s1 : Clase social
 Edad
 Sexo
 wt : ponderador
@@ -69,6 +70,7 @@ mutate(Clase_social = car::recode(.$Clase_social, recodes =c("1 = 'Alta'; 2 = 'M
                           edad>=60~"Adultos Mayores",
                           TRUE ~ NA_character_)) 
 
+# 6.1 creacion objetos variables lista 
 
 datos_proc <- datos_proc%>%
   
@@ -83,18 +85,15 @@ datos_proc <- datos_proc%>%
                                             3 = 'Poca'; 4 = 'Ninguna'; c(-1, -2, -3, -4, -5) = NA"))) %>%
   mutate(confianza_gobierno.rc = car::recode(.$confianza_gobierno, recodes =c("1 = 'Mucho'; 2 = 'Algo';
                                             3 = 'Poca'; 4 = 'Ninguna'; c(-1, -2, -3, -4, -5) = NA"))) %>%
-  mutate(Clase_social = car::recode(.$Clase_social, recodes =c("1 = 'Alta'; 2 = 'Media Alta'; 3 = 'Media';
-                                         4 = 'Media Baja'; 5 = 'Baja'; c(-1, -2, -3, -4, -5) = NA"))) %>%
-  
   mutate(edad = case_when(edad>=18 & edad<=25~"Jovenes",
                           edad>=26 & edad<=40~"Adultos Jovenes",
                           edad>=41 & edad<=60~"Adultos",
                           edad>=60~"Adultos Mayores",
                           TRUE ~ NA_character_)) 
-
+# 6.2 Objeto final 
 datos_proc <- datos_proc %>%
   mutate_at(vars( confianza_policia ,confianza_iglesia, confianza_congreso,
-                 confianza_gobierno, sexo), ~(as.numeric(.)))
+                 confianza_gobierno, sexo), ~(as.numeric(.))) # se tranforma a numeric para poder trabajar mas adelante con estas variables
 
 
 

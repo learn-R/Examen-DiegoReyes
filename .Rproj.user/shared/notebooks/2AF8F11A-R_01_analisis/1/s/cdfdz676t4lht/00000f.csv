@@ -1,0 +1,15 @@
+"0","sjPlot::tab_model(list(modelo_Ponderador,modelo0),
+  string.intercept = ""(Intercepto)"",
+  string.pred = ""Predictores"",
+  p.style = ""stars"",
+  show.ci = FALSE,
+  collapse.ci = T,
+  digits = 3,
+  dv.labels = c(""Modelo con pesos muestrales"", ""Modelo sin pesos muestrales""),
+  show.reflvl = TRUE,
+  encoding = ""UTF-8"",
+  lang = ""es"")
+"
+"2","Error in sjPlot::tab_model(list(modelo_Ponderador, modelo0), string.intercept = ""(Intercepto)"",  : 
+  object 'modelo_Ponderador' not found
+"

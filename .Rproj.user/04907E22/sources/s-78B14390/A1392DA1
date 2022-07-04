@@ -3,7 +3,7 @@
     "path": "~/R/Examen R/Examen-DiegoReyes/R/R_01-proc.R",
     "project_path": "R/R_01-proc.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "2990461655",
     "contents": "",
     "dirty": false,
     "created": 1656459031965.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "98,0",
-        "scrollLine": "80"
+        "cursorPosition": "28,34",
+        "scrollLine": "11"
     },
     "folds": "",
-    "lastKnownWriteTime": 1656809461,
+    "lastKnownWriteTime": 1656966155,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1656809461452,
+    "last_content_update": 1656966155201,
     "read_only": false,
     "read_only_alternatives": []
 }
