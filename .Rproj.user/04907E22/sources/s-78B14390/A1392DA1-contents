@@ -32,8 +32,6 @@ Sexo
 wt : ponderador
 
 
-
-
 # 5. Cambio de nombre de variables a utilizar
 datos_proc <- datos_2020 %>% 
   dplyr::select(confianza_policia=P13STGBS_B,

@@ -1,9 +1,0 @@
-"0","datos_proc %>%
-  select( confianza_fuerzas,  sexo) %>% 
-  tab_corr(.,
-           triangle = ""lower"",   
-           title = ""Tabla de correlación"",
-           encoding = ""UTF-8"")
-"
-"2","Error in stats::cor(data, method = corr.method) : 'x' must be numeric
-"

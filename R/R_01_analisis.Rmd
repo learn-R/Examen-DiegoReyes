@@ -9,6 +9,26 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+**Universidad Alberto Hurtado**
+
+**Profesora: Valentina Andrade**
+
+**Ayudantes: Dafne Jaime y Nicolás Godoy**
+
+
+# Examen: "Grados de confianza en instituciones publicas en el 2020"
+
+
+# Abstract
+Tras la crisis institucional y posteriormente a un estallido social, han habido grandes cambios y bastantes significativos en lo que respecta a las instituciones. Es por eso, que se ha ido arrastrando una crisis en distintas e importantes instituciones que tienen por función el velar por el bien común de la comunidad y de la sociedad, es por aquello, que resulta importante realizar una investigación que indique los niveles de desconfianza hacia las instituciones. Esto, ya que, se enfrentan grandes cambios en Chile y es importante que se tengan en cuenta las consideraciones de la población, en relación al desapego que existe, para futura toma de decisiones. 
+
+
+# Introducción 
+El estallido social del año 2019 ha traído consigo bastantes cambios tanto estructurales como en el imaginario colectivo de la ciudadanía, lo cual se ha expresado últimamente en una desconfianza y deslegitimación generalizada de las instituciones públicas debido a distintos motivos, tanto como corrupción, desigualdad, etc. Es de suma importancia poder estudiar está crisis de credibilidad, especialmente cuando estamos frentes a grandes procesos de cambios culturales, por lo que, para la presente investigación con base en Latinobarómetro Chile 2020 se hace un análisis de regresión con las variables de confianza en distintas e importantes instituciones que son parte del día a día de las personas, en relación a la edad de la población y el sexo. La encuesta permite percibir hasta qué punto es el nivel de desconfianza de las personas hacia las instituciones. 
+A partir de la investigación , se busca contestar a la siguiente interrogante ¿Existen diferencias significativas entre las percepciones de desconfianza con las diferentes instituciones según sexo y edad de la población? 
+
+
+
 # 1. Cargar librerías
 ```{r, echo = FALSE}
 pacman::p_load(sjPlot,
@@ -32,28 +52,7 @@ sjPlot::view_df(datos_proc,
 
 ```
 
-# 4. Análisis de Correlación
-```{r, echo=FALSE, message=FALSE}
-
-datos_proc%>%
-  plot_scatter(., confianza_policia, sexo,
-               title="Asociación de variables percepcion de riesgo y cuidarse",
-               fit.grps = "lm", grid = TRUE)
-
-```
-
-## 4.1 Tabla del análisis de correlación
-```{r}
-
-datos_proc %>%
-  select( confianza_policia,  sexo) %>% 
-  tab_corr(.,
-           triangle = "lower",   
-           title = "Tabla de correlación",
-           encoding = "UTF-8")
-```
-
-
+# 4. Creacion de modelos de regresion 
 ```{r, echo=FALSE,message=FALSE}
 modelo1 <- lm(confianza_policia ~  sexo + edad,
               data = datos_proc, 
@@ -81,12 +80,26 @@ summary(modelo4)
 
 
 
-
-
-
 ```
 
-#tTabla con los modelos hechos 
+Respecto a la interpretación de los coeficientes de regresión de la variables relacionadas a confianza, podemos ver que existe una direccionalidad en relación a una mayor percepción de riesgo y mayores medidas de cuidado. 
+
+Como vemos a continuación:`r modelo1$coefficients[2]`
+                          `r modelo1$coefficients[4]`
+                          `r modelo1$coefficients[3]`
+                          `r modelo2$coefficients[2]`
+                          `r modelo2$coefficients[4]`
+                          `r modelo2$coefficients[3]`
+                          `r modelo3$coefficients[2]`
+                          `r modelo3$coefficients[4]`
+                          `r modelo3$coefficients[3]`
+                          `r modelo4$coefficients[2]`
+                          `r modelo4$coefficients[4]`
+
+                          `r modelo4$coefficients[3]`
+Podemos apreciar que la desconfianza en las distintas instituciones que se muestran, es mayor en relacion a la poblacion joven, que a la poblacion de la edad mas adulta, esto quiere decir, que se muestra un cambio de pensamiento en las percepciones en relacion a la poblacion joven y una mayor desconfianza de las instituciones 
+                          
+# 5. Tabla con los modelos hechos 
 ```{r} 
 sjPlot::tab_model(list(modelo1, modelo2, modelo3, modelo4),
                   show.ci = FALSE,
@@ -110,9 +123,9 @@ sjPlot::tab_model(list(modelo1,modelo2,modelo3,modelo4),
   encoding = "UTF-8",
   lang = "es")
 ```
+No existe una diferencia significativa entre los distintos modelos y tampoco con los R2.  
 
-
-# Creamos un modelo completo sin diseño muestral
+# 6. Creamos un modelo completo sin diseño muestral
 ```{r modelo_completo_sin, echo=TRUE}
 
 modelo_ponderador <- lm(confianza_policia ~ confianza_iglesia + confianza_congreso + confianza_gobierno + sexo + edad, data = datos_proc, weights = Ponderador)
@@ -120,14 +133,12 @@ modelo_ponderador <- lm(confianza_policia ~ confianza_iglesia + confianza_congre
 summary(modelo_ponderador) #Revisamos los valores del modelo
 ```
 
-# Creamos un modelo sin pesos muestrales
+# 6.1 Creamos un modelo sin pesos muestrales
 ```{r model0, echo=TRUE}
 modelo0 <- lm(confianza_policia ~ confianza_iglesia + confianza_congreso + confianza_gobierno + sexo + edad, data = datos_proc)
 ```
 
-
-
-**Tabla con modelo completo con peso muestral y el modelo completo sin pesos muestrales**
+# 7. Tabla con modelo completo con peso muestral y un modelo completo con el podnerador
 
 ```{r tabla3, echo=FALSE, include=TRUE}
 sjPlot::tab_model(list(modelo_ponderador,modelo0),
@@ -142,11 +153,9 @@ sjPlot::tab_model(list(modelo_ponderador,modelo0),
   encoding = "UTF-8",
   lang = "es")
 ```
-```
+En relacion a la diferencia entre un modelo con pesos muestrales y otro sin pesos muestrales, no es una gran diferencia ni significativa, por lo tabnto, no se presenta un mayor peso entre un modelo y otro. 
 
-
-```{r}
-5. Gráfico para Modelo Ponderador sin diseño muestral  
+# 7.1 Gráfico para Modelo Ponderador sin diseño muestral  
 ```{r grafico1, echo=FALSE}
 plot_model(modelo_ponderador, type = c("est"),
   show.intercept = T,
@@ -157,7 +166,7 @@ plot_model(modelo_ponderador, type = c("est"),
   title = "Modelo de regresión lineal para Modelo Completo")
 ```
 
-5.1 Gráfico para Modelo 0 sin peso muetsral 
+# 7.2 Gráfico para Modelo 0 sin peso muetsral 
 ```{r grafico2}
 plot_model(modelo0, type = c("est"),
   show.intercept = T,
@@ -168,3 +177,8 @@ plot_model(modelo0, type = c("est"),
   title = "Modelo de regresión lineal simple para Modelo 0 sin peso muestral")
 ```
 
+Asimismo, con la elaboracion de una tabla y de los distintos graficos con todos los modelos de regresion, se nos permite comparar los predictores que tiene cada modelo de regresion, y con base en esto, es que podemos decir, que todos los modelos cuentan tanto con una direccion negativa, como con una direccion positiva debido a que los valores fluctuan entre -1 y 1  y se encuentran con un 99% de confianza. 
+
+# Conclusion 
+
+Respecto a los analisis recien hechos, se puede concluir de que efectivamente existe una desconfianza generalizada por parte de la ciudadania en relacion a las distintas instituciones, pero se muestra mayor desconfianza en una poblacion joven que una de avanzada edad, y entre sexo no existen diferencias significativas, por ende, se puede decir que existe una desconfianza generalizada entre la poblacion sin importar el sexo, solo la edad. Lo cual se condice con lo visto en las manifestaciones del estallido, donde habia una poblacion mayopritariamente joven. 

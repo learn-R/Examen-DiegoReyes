@@ -1,4 +1,0 @@
-"0","modelo_survey <- svyglm(confianza_policia ~ confianza_iglesia + confianza_congreso + confianza_gobierno + sexo + edad, family = gaussian(link = ""identity""), design = obj_enc)
-"
-"2","Error in .svycheck(design) : object 'obj_enc' not found
-"
