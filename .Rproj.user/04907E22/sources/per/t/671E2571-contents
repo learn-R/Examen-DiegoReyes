@@ -1,0 +1,80 @@
+# Tarea IV: Encuesta MOVID-IMPACT (2020)
+# 1. Cargar librerías
+
+pacman::p_load(haven,
+               tidyverse,
+               dplyr,
+               sjmisc)
+
+# 2. Cargar datos
+
+datosReyes <- read_sav("input/data/Reyes.sav")
+rm(data)
+
+# 3. Explorar datos
+
+names(datosReyes)
+str(datosReyes)
+
+# 4. Cambio de nombre de variables a utilizar
+datosReyesmod <- datosReyes %>% 
+  dplyr::select(entrevistado,
+                cuidarse = f7_3,
+                riesgo = f6,
+                trabaja = g1,
+                edad, factor_expansion)
+
+# 4.1 Recodificación
+
+datosReyesmod %>%
+  mutate_at(vars(cuidarse, riesgo, trabaja), ~(as.factor(.))) %>% 
+  mutate(trabaja = car::recode(.$trabaja, recodes = c("1 = 'si'; 2 = 'no'"))) %>% 
+  mutate(riesgo.fc = car::recode(.$riesgo, recodes = c("1 = 'Nada peligroso'; 2 = 'Algo peligroso';
+                                            3 = 'Bastante peligroso'; 4 = 'Muy peligroso';
+                                            5 = 'Extremadamente peligroso'; c(8,9) = NA"))) %>% 
+  mutate(cuidarse.fc = car::recode(.$cuidarse, recodes = c("1 = 'Casi nunca'; 2 = 'A veces'; 3 = 'Frecuentemente';
+                                                        4 = 'Casi siempre'; 5 = 'Siempre'; c(8,9) = NA"))) %>% 
+  
+  mutate(edad = case_when(edad>=18 & edad<=29~"Jovenes",
+                          edad>=30 & edad<=59~"Adultos",
+                          edad>=60~"Adultos mayores",
+                          TRUE ~ NA_character_)) 
+
+
+# 4.2 Creación objeto variables listas
+
+datosReyesmod <- datosReyesmod %>%
+  mutate_at(vars(cuidarse, riesgo, trabaja), ~(as.factor(.))) %>% 
+  mutate(trabaja = car::recode(.$trabaja, recodes = c("1 = 'si'; 2 = 'no'"))) %>% 
+  mutate(riesgo.fc = car::recode(.$riesgo, recodes = c("1 = 'Nada peligroso'; 2 = 'Algo peligroso';
+                                            3 = 'Bastante peligroso'; 4 = 'Muy peligroso';
+                                            5 = 'Extremadamente peligroso'; c(8,9) = NA"))) %>% 
+  mutate(cuidarse.fc = car::recode(.$cuidarse, recodes = c("1 = 'Casi nunca'; 2 = 'A veces'; 3 = 'Frecuentemente';
+                                                        4 = 'Casi siempre'; 5 = 'Siempre'; c(8,9) = NA"))) %>% 
+  
+  mutate(edad = case_when(edad>=18 & edad<=29~"Jovenes",
+                          edad>=30 & edad<=59~"Adultos",
+                          edad>=60~"Adultos mayores",
+                          TRUE ~ NA_character_)) 
+
+# 4.3 Creación variable dummy y modificación variables para el análisis
+
+datosReyesmod %>% 
+  mutate(dummy_cuidarse = ifelse(cuidarse.fc %in%c('Frecuentemente', 'Casi siempre', 'Siempre'), 1, 0)) %>% 
+  select(dummy_cuidarse) %>% 
+  frq(dummy_cuidarse)
+
+datosReyesmod %>% 
+  mutate_at(vars(cuidarse, riesgo), ~(as.numeric(.)))
+
+
+# 4.4 Objeto final
+
+datosReyesmod <- datosReyesmod %>%
+  mutate(dummy_cuidarse = ifelse(cuidarse.fc %in%c('Frecuentemente', 'Casi siempre', 'Siempre'), 1, 0)) %>% 
+  mutate_at(vars(cuidarse, riesgo), ~(as.numeric(.)))
+
+  
+# 5. Exportar datos  
+
+saveRDS(datosReyesmod, file = "output/data/datos_proc.rds")

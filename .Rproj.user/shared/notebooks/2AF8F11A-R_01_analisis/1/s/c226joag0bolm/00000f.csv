@@ -1,0 +1,7 @@
+"0","plot_model(modelo_ponderador, type = c(""est""),"
+"0","  show.intercept = T,"
+"0","  show.values = T,"
+"0","  show.p = T,"
+"0","  digits = 3,"
+"0","  vline.color = ""purple"","
+"0","  title = ""Modelo de regresión lineal para Modelo Completo"")"
